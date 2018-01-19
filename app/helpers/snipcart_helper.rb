@@ -1,8 +1,8 @@
 module SnipcartHelper
   require 'uri'
   require 'net/http'
-  def snipcart_request()
-    url = URI("https://app.snipcart.com/api/orders/")
+  def snipcart_request(req, params = {}, met = 'GET')
+    url = URI("https://app.snipcart.com/api/" + req)
 
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
@@ -15,6 +15,11 @@ module SnipcartHelper
 
     response = http.request(request)
 
-    return JSON.parse(response.read_body.to_s.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?'))
+    return JSON.parse(
+      response
+        .read_body
+        .to_s
+        .encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
+      )
   end
 end
