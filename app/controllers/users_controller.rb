@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :periods, :update, :destroy]
+  load_and_authorize_resource
 
   # GET /users
   def index
