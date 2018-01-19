@@ -4,9 +4,13 @@ class PeriodsController < ApplicationController
   # GET /periods
   # GET /periods.json
   def index
-    @periods = Period.where(user: current_user)
+    unless current_user.admin
+      @periods = Period.where(user: current_user)
+    else
+      @periods = Period.all
+    end
   end
-
+  
   # GET /periods/1
   # GET /periods/1.json
   def show

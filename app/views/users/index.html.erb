@@ -1,0 +1,30 @@
+<div id="dashboard">
+  <div class="container user-management">
+    <h2>Utilisateurs</h2>
+    <div class="row">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Admin</th>
+            <th colspan="2" scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <th scope="row"><%= user.id %></th>
+              <td><%= user.firstname %></td>
+              <td><%= user.lastname %></td>
+              <td><%= user.admin ? "✅" : "❌" %></td>
+              <td><%= link_to "Modifier", edit_user_path(user.id) %></td>
+              <td><%= link_to "Periodes", periods_user_path(user.id) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

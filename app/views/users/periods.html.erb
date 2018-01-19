@@ -1,0 +1,25 @@
+<div id="dashboard">
+  <div class="container user-management">
+    <h2>Périodes de <%= @user.firstname + ' ' + @user.lastname %></h2>
+    <div class="row">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Début</th>
+            <th scope="col">Fin</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @user.periods.each do |period| %>
+            <tr>
+              <td><%= period.start_date %></td>
+              <td><%= period.end_date %></td>
+              <td><%= link_to "Modifier", edit_period_path(period.id) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
