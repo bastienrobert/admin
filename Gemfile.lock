@@ -39,15 +39,17 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (8.0.0)
-    autoprefixer-rails (7.1.6)
+    autoprefixer-rails (7.2.5)
       execjs
     bcrypt (3.1.11)
     bindex (0.5.0)
-    bootstrap-sass (3.3.7)
-      autoprefixer-rails (>= 5.2.1)
-      sass (>= 3.3.4)
+    bootstrap (4.0.0)
+      autoprefixer-rails (>= 6.0.3)
+      popper_js (>= 1.12.9, < 2)
+      sass (>= 3.5.2)
     builder (3.2.3)
     byebug (9.1.0)
+    cancancan (2.0.0)
     choice (0.2.0)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
@@ -90,6 +92,7 @@ GEM
       mini_portile2 (~> 2.3.0)
     orm_adapter (0.5.0)
     pg (1.0.0)
+    popper_js (1.12.9)
     puma (3.11.1)
     rack (2.0.3)
     rack-test (0.8.2)
@@ -202,8 +205,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-sass (~> 3.3.7)
+  bootstrap (~> 4.0.0)
   byebug
+  cancancan (~> 2.0)
   devise
   jbuilder (~> 2.0)
   jquery-rails

@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  # GET /
-  def home
+  def index
   end
-
 end
