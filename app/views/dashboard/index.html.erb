@@ -47,7 +47,7 @@
               <td><%= order['email'] %></td>
               <td><%= status_translate(order['status']) %></td>
               <td><%= DateTime.parse(order['creationDate']).strftime('%d/%m/%Y') %></td>
-              <td><%= link_to 'Voir' %></td>
+              <td><%= link_to 'Voir', order_dashboard_path(order['token']) %></td>
             </tr>
           <% end %>
         </tbody>

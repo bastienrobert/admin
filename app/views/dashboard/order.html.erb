@@ -1,0 +1,9 @@
+Items dans le panier : <%= @order['items'].count %><br>
+Premier élément : <%= @order['items'][0]['name'] %><br>
+Client : <%= @order['user']['billingAddressName'] %><br><br>
+Adresse :<br>
+<%= @order['user']['shippingAddressName'] %><br>
+<%= @order['user']['shippingAddressAddress1'] %><br>
+<%= @order['user']['shippingAddressAddress2'] %><br>
+<%= @order['user']['shippingAddressPostalCode'] %> - <%= @order['user']['shippingAddressCity'] %><br>
+<%= @order['user']['shippingAddressCountry'] %>

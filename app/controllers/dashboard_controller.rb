@@ -13,6 +13,6 @@ class DashboardController < ApplicationController
   private
 
   def set_order
-    @order = snipcart_request('orders') # With param : params[:id]
+    @order = snipcart_request('orders')['items'].select {|v| v['token'] == params[:id]}[0]
   end
 end
