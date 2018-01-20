@@ -4,4 +4,3 @@
   - Last orders on dashboard & the 3 numbers
   - Get periods data
   - What happened on delivery ???
-- Form to create a user
