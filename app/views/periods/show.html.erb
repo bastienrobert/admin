@@ -55,8 +55,9 @@
         </div>
         <div class="modal-body">
           <select name="" id="" class="custom-select">
-            <option value="">Annuler (sans rembourser)</option>
-            <option value="">Annuler (et rembourser)</option>
+            <%= options_for_select status_translate
+                  .to_a
+                  .each_with_object({}){|(k,v),o|(o[v]||=[])<<k} %>
           </select>
         </div>
         <div class="modal-footer">
