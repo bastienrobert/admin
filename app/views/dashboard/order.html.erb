@@ -5,16 +5,18 @@
       <div class="jumbotron">
         <h1 class="display-4">#<%= @order['invoiceNumber'] %></h1>
         <h3 class="display-6"><%= @order['user']['billingAddressName'] %></h3>
-        <div class="input-group">
-          <select class="custom-select">
-            <%= options_for_select status_translate
-                  .to_a
-                  .each_with_object({}){|(k,v),o|(o[v]||=[])<<k} %>
-          </select>
-          <div class="input-group-append">
-            <button class="btn btn-success" type="button">Valider</button>
-          </div>
-        </div>
+          <%= form_tag order_status_periods_path(@order['token']), method: :post do %>
+            <div class="input-group">
+            <%= select_tag 'status', options_for_select(status_translate
+                  .invert
+                  .to_a,
+                selected: @order['status']),
+                  class: 'custom-select' %>
+              <div class="input-group-append">
+                <input class="btn btn-success" type="submit" value="Valider">
+              </div>
+            </div>
+          <% end %>
         <hr class="my-4">
         <h3 class="display-6"><%= @order['items'].count %> élément(s) dans le panier</h3><br>
         <ul>
