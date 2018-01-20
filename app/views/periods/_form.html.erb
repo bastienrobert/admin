@@ -24,7 +24,7 @@
   <div class="field">
     <%= form.label :user_id %>
     <%= select(
-      "user",
+      "period",
       "user_id",
       User.all.collect {|u| [ u.id.to_s + ' - ' + u.firstname + ' ' + u.lastname, u.id ] },
       {prompt: 'Choisir un utilisateur',

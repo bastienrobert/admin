@@ -4,7 +4,7 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <h2 class="card-title"><%= @orders['items'].sum {|v| v['items'][0]['price'].to_f}.round(2) %></h2>
+            <h2 class="card-title"><%= @orders.sum {|v| v['items'][0]['price'].to_f}.round(2) %></h2>
             <p class="card-text">Chiffre d'affaire</p>
           </div>
         </div>
@@ -12,7 +12,7 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <h2 class="card-title"><%= @orders['items'].select {|v| v['status'] == 'Processed'}.count %></h2>
+            <h2 class="card-title"><%= @orders.select {|v| v['status'] == 'Processed'}.count %></h2>
             <p class="card-text">Nouvelles commandes</p>
           </div>
         </div>
@@ -20,7 +20,7 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <h2 class="card-title"><%= @orders['items'].count %></h2>
+            <h2 class="card-title"><%= @orders.count %></h2>
             <p class="card-text">Commandes totales</p>
           </div>
         </div>
@@ -34,18 +34,22 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Email</th>
+            <th scope="col">Statut</th>
+            <th scope="col">Date</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
+          <% @orders.each do |order| %>
+            <tr>
+              <th scope="row"><%= order['invoiceNumber'] %></th>
+              <td><%= order['email'] %></td>
+              <td><%= status_translate(order['status']) %></td>
+              <td><%= DateTime.parse(order['creationDate']).strftime('%d/%m/%Y') %></td>
+              <td><%= link_to 'Voir' %></td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
     </div>

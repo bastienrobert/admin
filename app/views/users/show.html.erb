@@ -8,7 +8,7 @@
           <tr>
             <th scope="col">Début</th>
             <th scope="col">Fin</th>
-            <th scope="col"></th>
+            <th colspan="2" scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -17,6 +17,7 @@
               <td><%= period.start_date %></td>
               <td><%= period.end_date %></td>
               <td><%= link_to "Modifier", edit_period_path(period.id) %></td>
+              <td><%= button_to "Supprimer", period_path(period.id), method: :delete, class: "btn btn-danger", confirm: 'Are you sure?' %></td>
             </tr>
           <% end %>
         </tbody>

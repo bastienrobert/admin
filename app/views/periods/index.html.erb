@@ -5,6 +5,9 @@
         <tr>
           <th scope="col">Date de début</th>
           <th scope="col">Date de fin</th>
+          <% if current_user.admin %>
+            <th scope="col">Créateur</th>
+          <% end %>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -12,8 +15,11 @@
       <tbody>
         <% @periods.each do |period| %>
           <tr>
-            <td><%= period.start_date %></td>
-            <td><%= period.end_date %></td>
+            <td><%= period.start_date.strftime('%d/%m/%Y') %></td>
+            <td><%= period.end_date.strftime('%d/%m/%Y') %></td>
+            <% if current_user.admin %>
+              <td><%= period.user.firstname + ' ' + period.user.lastname %></td>
+            <% end %>
             <td><%= link_to 'Voir', period %></td>
           </tr>
         <% end %>
