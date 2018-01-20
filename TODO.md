@@ -1,7 +1,11 @@
 # Todo
-- Page doesn't reload on status changed
+
+## High priority
+- Page doesn't reload on status changed (dashboard#order & period#show)
   - Status edit doesn't work on pop-up yet (Other action)
-- Period form edit is not working
-- Order page : select to be able to change the order status, beautify it
 
 /!\ What happened when status set to Shipped : what about auto delivering, mailing...
+
+
+## Low priority
+- Period form edit is not working

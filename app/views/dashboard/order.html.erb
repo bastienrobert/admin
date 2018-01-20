@@ -1,9 +1,60 @@
-Items dans le panier : <%= @order['items'].count %><br>
-Premier élément : <%= @order['items'][0]['name'] %><br>
-Client : <%= @order['user']['billingAddressName'] %><br><br>
-Adresse :<br>
-<%= @order['user']['shippingAddressName'] %><br>
-<%= @order['user']['shippingAddressAddress1'] %><br>
-<%= @order['user']['shippingAddressAddress2'] %><br>
-<%= @order['user']['shippingAddressPostalCode'] %> - <%= @order['user']['shippingAddressCity'] %><br>
-<%= @order['user']['shippingAddressCountry'] %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <br><br>
+      <div class="jumbotron">
+        <h1 class="display-4">#<%= @order['invoiceNumber'] %></h1>
+        <h3 class="display-6"><%= @order['user']['billingAddressName'] %></h3>
+        <div class="input-group">
+          <select class="custom-select">
+            <%= options_for_select status_translate
+                  .to_a
+                  .each_with_object({}){|(k,v),o|(o[v]||=[])<<k} %>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-success" type="button">Valider</button>
+          </div>
+        </div>
+        <hr class="my-4">
+        <h3 class="display-6"><%= @order['items'].count %> élément(s) dans le panier</h3><br>
+        <ul>
+          <% @order['items'].each do |order| %>
+            <li>
+              <%= link_to order['name'], order['url'], target: '_blank' %>
+            </li>
+          <% end %>
+        </ul>
+        <hr class="my-4">
+        <p>
+          <h3 class="display-6">Adresse destinataire</h3>
+          <%= @order['user']['shippingAddressName'] %><br>
+          <%= @order['user']['shippingAddressAddress1'] %><br>
+          <%= @order['user']['shippingAddressAddress2'] %><br>
+          <%= @order['user']['shippingAddressPostalCode'] %> - <%= @order['user']['shippingAddressCity'] %><br>
+          <%= @order['user']['shippingAddressCountry'] %>
+        </p>
+        <hr class="my-4">
+        <p>
+          <% unless @order['user']['shippingAddressSameAsBilling'] %>
+            <div class="alert alert-warning" role="alert">
+              L'adresse du destinataire n'est pas la même que l'adresse du payeur.
+              <b>Il s'agit peut-être d'une surprise</b>
+            </div>
+            <h3 class="display-6">Contact payeur</h3>
+            <a href="tel:<%= @order['user']['shippingAddressPhone'] %>">
+              <%= @order['user']['shippingAddressPhone'] %><br>
+            </a>
+            <%= mail_to @order['user']['email'] %>
+          <% end %>
+          <h3 class="display-6">Contact destinataire</h3>
+          <a href="tel:<%= @order['user']['billingAddressPhone'] %>">
+            <%= @order['user']['billingAddressPhone'] %><br>
+          </a>
+          <% if @order['user']['shippingAddressSameAsBilling'] %>
+            <%= mail_to @order['user']['email'] %>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

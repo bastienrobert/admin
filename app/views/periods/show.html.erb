@@ -17,6 +17,7 @@
           <th scope="col">Email</th>
           <th scope="col">Statut</th>
           <th scope="col">Date</th>
+          <th scope="col"></th>
           <th colspan="2" scope="col">Actions</th>
         </tr>
       </thead>
@@ -27,6 +28,7 @@
             <td><%= order['email'] %></td>
             <td><%= status_translate(order['status']) %></td>
             <td><%= DateTime.parse(order['creationDate']).strftime('%d/%m/%Y') %></td>
+            <td><%= link_to 'Voir', order_dashboard_path(order['token']) %></td>
             <td>
               <%= actions_status(order['status'], order['token']) %>
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#otherAction">

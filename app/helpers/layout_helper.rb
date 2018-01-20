@@ -10,7 +10,11 @@ module LayoutHelper
       Pending: 'En attente',
       Cancelled: 'Annulée'
     }.with_indifferent_access
-    return status[s] ||= status
+    unless s == false
+      return status[s]
+    else
+      return status
+    end
   end
 
   def actions_status(s, id)
