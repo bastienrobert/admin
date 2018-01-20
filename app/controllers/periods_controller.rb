@@ -10,10 +10,16 @@ class PeriodsController < ApplicationController
       @periods = Period.all
     end
   end
-  
+
   # GET /periods/1
   # GET /periods/1.json
   def show
+    @orders = snipcart_request('orders')['items']
+  end
+
+  # POST /periods/1
+  def order_status
+    snipcart_request('orders/' + params[:token], {status: params[:status]}, 'PUT')
   end
 
   # GET /periods/new

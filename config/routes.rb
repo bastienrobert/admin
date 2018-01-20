@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :periods, except: [:new] do
     collection do
       get 'new/:user_id', :to => "periods#new", :as => 'new'
+      post ':token/:status', :to => "periods#order_status", :as => 'order_status'
     end
   end
 
