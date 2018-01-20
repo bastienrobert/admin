@@ -1,4 +1,17 @@
 class DashboardController < ApplicationController
-  def creator_index
+  before_action :set_order, only: [:order]
+
+  # GET /dashboard
+  def index
+  end
+
+  # GET /order/:id
+  def order
+  end
+
+  private
+
+  def set_order
+    @order = snipcart_request('orders') # With param : params[:id]
   end
 end

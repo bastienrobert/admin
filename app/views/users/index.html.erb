@@ -20,7 +20,7 @@
               <td><%= user.lastname %></td>
               <td><%= user.admin ? "✅" : "❌" %></td>
               <td><%= link_to "Modifier", edit_user_path(user.id) %></td>
-              <td><%= link_to "Periodes", periods_user_path(user.id) %></td>
+              <td><%= link_to "Periodes", user_path(user.id) %></td>
             </tr>
           <% end %>
         </tbody>

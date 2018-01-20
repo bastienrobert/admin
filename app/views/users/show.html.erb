@@ -1,6 +1,7 @@
 <div id="dashboard">
   <div class="container user-management">
     <h2>Périodes de <%= @user.firstname + ' ' + @user.lastname %></h2>
+    <%= link_to "Editer", edit_user_path(@user.id) %>
     <div class="row">
       <table class="table">
         <thead>

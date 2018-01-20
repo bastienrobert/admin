@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   end
 
   resources :users
-  get '/users/:id/periods' => "users#periods", as: :periods_user
 
   get '/dashboard' => "dashboard#index", as: :user_root
+  get '/order/:id' => "dashboard#order", as: :order_dashboard
 end

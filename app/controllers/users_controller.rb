@@ -16,8 +16,8 @@ class UsersController < ApplicationController
   def edit
   end
 
-  # GET /users/1/periods
-  def periods
+  # GET /users/1
+  def show
   end
 
 
