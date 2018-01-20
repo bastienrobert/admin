@@ -11,27 +11,28 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :start_date %>
-    <%= form.date_select :start_date, id: :period_start_date %>
+    <%= form.date_select :start_date, id: :period_start_date, order: [:day, :month, :year] %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :end_date %>
-    <%= form.date_select :end_date, id: :period_end_date %>
+    <%= form.date_select :end_date, id: :period_end_date, order: [:day, :month, :year], :class => "SelectDropDown" %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :user_id %>
     <%= select(
       "period",
       "user_id",
       User.all.collect {|u| [ u.id.to_s + ' - ' + u.firstname + ' ' + u.lastname, u.id ] },
       {prompt: 'Choisir un utilisateur',
-        selected: period.user_id ||= params[:user_id]}) %>
+        selected: period.user_id ||= params[:user_id]},
+      class: 'form-control') %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'Valider', class: 'btn btn-primary' %>
   </div>
 <% end %>
