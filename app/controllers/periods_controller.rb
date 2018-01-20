@@ -14,7 +14,10 @@ class PeriodsController < ApplicationController
   # GET /periods/1
   # GET /periods/1.json
   def show
-    @orders = snipcart_request('orders')['items']
+    @orders = snipcart_request('orders')['items'].select { |v|
+      DateTime.parse(v['creationDate']) >= @period.start_date.beginning_of_day &&
+      DateTime.parse(v['creationDate']) <= @period.end_date.end_of_day
+    }
   end
 
   # POST /periods/1

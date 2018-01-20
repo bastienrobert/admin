@@ -1,6 +1,6 @@
 module LayoutHelper
 
-  def status_translate(s)
+  def status_translate(s = false)
     status = {
       InProgress: 'En cours',
       Processed: 'Traitée',
@@ -10,7 +10,7 @@ module LayoutHelper
       Pending: 'En attente',
       Cancelled: 'Annulée'
     }.with_indifferent_access
-    return status[s] ||= ''
+    return status[s] ||= status
   end
 
   def actions_status(s, id)
@@ -25,7 +25,7 @@ module LayoutHelper
     }
     conditions.each do |k, v|
       if s.downcase == k.to_s.downcase
-        return button_to status_translate(v), {controller: 'periods', action: 'order_status', token: id, status: v}, method: :post, remote: true
+        return button_to status_translate(v), {controller: 'periods', action: 'order_status', token: id, status: v}, method: :post, remote: true, class: 'btn btn-warning'
       end
     end
     return ''

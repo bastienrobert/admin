@@ -1,6 +1,11 @@
 <div class="container show" id="periods">
 
-  <h2>Période du <%= @period.start_date.strftime("%d-%m-%Y") %> au <%= @period.end_date.strftime("%d-%m-%Y") %></h2>
+  <h2>Période du <%= @period.start_date.strftime("%d/%m/%Y") %> au <%= @period.end_date.strftime("%d/%m/%Y") %></h2>
+  <% if current_user.admin %>
+    <%= link_to "Modifier", edit_period_path(@period.id) %>
+    <br>
+  <% end %>
+
   <%= link_to "Revenir à l'accueil", periods_path %>
 
 
@@ -12,7 +17,7 @@
           <th scope="col">Email</th>
           <th scope="col">Statut</th>
           <th scope="col">Date</th>
-          <th scope="col">Actions</th>
+          <th colspan="2" scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
