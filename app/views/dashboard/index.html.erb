@@ -4,24 +4,24 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <h2 class="card-title">12 000€</h2>
-            <p class="card-text">Un texte</p>
+            <h2 class="card-title"><%= @orders['items'].sum {|v| v['items'][0]['price'].to_f}.round(2) %></h2>
+            <p class="card-text">Chiffre d'affaire</p>
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <h2 class="card-title">33%</h2>
-            <p class="card-text">Un texte</p>
+            <h2 class="card-title"><%= @orders['items'].select {|v| v['status'] == 'Processed'}.count %></h2>
+            <p class="card-text">Nouvelles commandes</p>
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <h2 class="card-title">42</h2>
-            <p class="card-text">Un texte</p>
+            <h2 class="card-title"><%= @orders['items'].count %></h2>
+            <p class="card-text">Commandes totales</p>
           </div>
         </div>
       </div>

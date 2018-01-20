@@ -3,6 +3,7 @@ class DashboardController < ApplicationController
 
   # GET /dashboard
   def index
+    @orders = snipcart_request('orders')
   end
 
   # GET /order/:id
