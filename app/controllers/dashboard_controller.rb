@@ -25,7 +25,7 @@ class DashboardController < ApplicationController
         render :order
       }
       format.json {
-        @order = snipcart_request('orders')['items'].select {|v| v['token'] == params[:id]}[0]
+        @order = snipcart_request('orders')['items'].select {|v| v['invoiceNumber'].downcase == params[:id].downcase}[0]
         render json: {
           status: @order['status'],
           invoiceNumber: @order['invoiceNumber'],
