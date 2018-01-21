@@ -11,6 +11,9 @@ class DashboardController < ApplicationController
     else
       @orders = snipcart_request('orders')['items']
     end
+    @orders_without_refund = @orders.select { |v|
+      v['refunds'].length <= 0
+    }
   end
 
   # GET /order/:id

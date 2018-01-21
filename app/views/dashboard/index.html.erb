@@ -4,7 +4,7 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <h2 class="card-title"><%= @orders.sum {|v| v['items'][0]['price'].to_f}.round(2) %></h2>
+            <h2 class="card-title"><%= @orders_without_refund.sum {|v| v['items'][0]['price'].to_f}.round(2) %></h2>
             <p class="card-text">Chiffre d'affaire</p>
           </div>
         </div>
@@ -12,7 +12,7 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <h2 class="card-title"><%= @orders.select {|v| v['status'] == 'Processed'}.count %></h2>
+            <h2 class="card-title"><%= @orders_without_refund.select {|v| v['status'] == 'Processed'}.count %></h2>
             <p class="card-text">Nouvelles commandes</p>
           </div>
         </div>
@@ -20,8 +20,8 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <h2 class="card-title"><%= @orders.count %></h2>
-            <p class="card-text">Commandes totales</p>
+            <h2 class="card-title"><%= @orders_without_refund.count %></h2>
+            <p class="card-text">Commandes totales (hors remboursées)</p>
           </div>
         </div>
       </div>
@@ -45,7 +45,7 @@
             <tr>
               <th scope="row"><%= order['invoiceNumber'] %></th>
               <td><%= order['email'] %></td>
-              <td><%= status_translate(order['status']) %></td>
+              <td><%= status_translate(order['status']) %> <%= '- Remboursée' if order['refunds'].length > 0 %></td>
               <td><%= DateTime.parse(order['creationDate']).strftime('%d/%m/%Y') %></td>
               <td><%= link_to 'Voir', order_dashboard_path(order['token']) %></td>
             </tr>

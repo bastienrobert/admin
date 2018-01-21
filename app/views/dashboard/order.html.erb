@@ -121,11 +121,14 @@
       <div class="modal-body">
         <%= form_tag order_refund_periods_path, method: :post, remote: true do %>
           <%= hidden_field_tag 'token', @order['token'] %>
-          <%= hidden_field_tag 'price', @order['finalGrandTotal'] %>
           <div class="modal-body">
             <div class="form-group">
               <%= label_tag :id, 'Commande', class: 'col-form-label' %>
               <%= text_field_tag :id, @order['invoiceNumber'], autofocus: true, class: 'form-control', disabled: true %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :price, 'Prix', class: 'col-form-label' %>
+              <%= text_field_tag :price, @order['finalGrandTotal'], class: 'form-control' %>
             </div>
             <div class="form-group">
               <%= label_tag :message, 'Message', class: 'col-form-label' %>
