@@ -19,13 +19,33 @@
           <% end %>
         <hr class="my-4">
         <h3 class="display-6"><%= @order['items'].count %> élément(s) dans le panier</h3><br>
-        <ul>
-          <% @order['items'].each do |order| %>
-            <li>
-              <%= link_to order['name'], order['url'], target: '_blank' %>
-            </li>
-          <% end %>
-        </ul>
+        <table class="table table-bordered table-light">
+          <thead>
+            <tr>
+              <td scope="col">Nom</td>
+              <td scope="col">Quantité</td>
+              <td scope="col">Autres</td>
+            </tr>
+          </thead>
+          <tbody>
+            <% @order['items'].each do |order| %>
+              <tr>
+                <td><%= link_to order['name'], order['url'], target: '_blank' %></td>
+                <td><%= order['quantity'] %></td>
+                <td>
+                  <% order['customFields'].each do |f| %>
+                    <% if f['name'].downcase == 'couleurs' || f['name'].downcase == 'colors' %>
+                      <span style="color: <%= f['displayValue'] %>"><%= f['name'] %></span> -
+                    <% else %>
+                      <%= f['name'] %> :
+                      <%= f['displayValue'] %>
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
         <hr class="my-4">
         <p>
           <h3 class="display-6">Adresse destinataire</h3>
