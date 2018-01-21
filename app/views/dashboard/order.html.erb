@@ -7,10 +7,10 @@
         <h3 class="display-6"><%= @order['user']['billingAddressName'] %></h3>
           <%= form_tag order_status_periods_path(@order['token']), method: :post do %>
             <div class="input-group">
-            <%= select_tag 'status', options_for_select(status_translate
-                  .invert
-                  .to_a,
-                selected: @order['status']),
+              <%= select_tag 'status', options_for_select(status_translate
+                    .invert
+                    .to_a,
+                  selected: @order['status']),
                   class: 'custom-select' %>
               <div class="input-group-append">
                 <input class="btn btn-success" type="submit" value="Valider">

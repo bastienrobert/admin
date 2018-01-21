@@ -31,7 +31,7 @@
             <td><%= link_to 'Voir', order_dashboard_path(order['token']) %></td>
             <td>
               <%= actions_status(order['status'], order['token']) %>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#otherAction">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#otherAction" data-order="<%= order['token'] %>">
                 Autre
               </button>
             </td>
@@ -46,25 +46,26 @@
 <div class="modal fade" id="otherAction" tabindex="-1" role="dialog" aria-labelledby="otherAction" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <form action="">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Autre action</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Autre action</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <%= form_tag order_status_periods_path, method: :post, remote: true do %>
         <div class="modal-body">
-          <select name="" id="" class="custom-select">
-            <%= options_for_select status_translate
-                  .to_a
-                  .each_with_object({}){|(k,v),o|(o[v]||=[])<<k} %>
-          </select>
+          <%= hidden_field_tag 'token', '' %>
+          <%= select_tag 'status', options_for_select(status_translate
+                .invert
+                .to_a,
+              selected: 'InProgress'),
+              class: 'custom-select' %>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <input type="submit" class="btn btn-primary"></button>
+          <input type="submit" class="btn btn-primary" value="Valider">
         </div>
-      </form>
+      <% end %>
     </div>
   </div>
 </div>
