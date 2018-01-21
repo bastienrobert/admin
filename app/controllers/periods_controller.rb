@@ -1,5 +1,5 @@
 class PeriodsController < ApplicationController
-  before_action :set_period, only: [:show, :edit, :update, :destroy]
+  before_action :set_period, only: [:show, :search, :edit, :update, :destroy]
   before_action :get_rights, only: [:order_refund, :order_status]
 
   # GET /periods
@@ -19,6 +19,11 @@ class PeriodsController < ApplicationController
       DateTime.parse(v['creationDate']) >= @period.start_date.beginning_of_day &&
       DateTime.parse(v['creationDate']) <= @period.end_date.end_of_day
     }
+    if params.has_key?(:invoiceNumber)
+      @orders.select! { |v|
+        v['invoiceNumber'] == params[:invoiceNumber]
+      }
+    end
   end
 
   # POST /periods/(:token)

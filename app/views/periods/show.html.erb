@@ -3,11 +3,24 @@
   <h2>Période du <%= @period.start_date.strftime("%d/%m/%Y") %> au <%= @period.end_date.strftime("%d/%m/%Y") %></h2>
   <% if current_user.admin %>
     <%= link_to "Modifier", edit_period_path(@period.id) %>
-    <br>
   <% end %>
 
-  <%= link_to "Revenir à l'accueil", periods_path %>
+  <div class="row">
+    <div class="col-md-5">
+      <%= form_tag period_path(@period), method: :get, class: 'search' do %>
+        <div class="input-group">
+          <%= text_field_tag :invoiceNumber, params[:invoiceNumber], class: 'form-control', placeholder: 'Numéro de commande (CAPS-####)' %>
+          <div class="input-group-append">
+            <%= submit_tag 'Valider', class: 'btn btn-outline-secondary' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
+  <% if params[:invoiceNumber] %>
+    <%= link_to 'Annuler la recherche', period_path(@period) %>
+  <% end %>
 
   <div class="row">
     <table class="table">
