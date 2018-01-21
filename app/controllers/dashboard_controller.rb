@@ -18,6 +18,20 @@ class DashboardController < ApplicationController
 
   # GET /order/:id
   def order
+    respond_to do |format|
+      format.html {
+        render :order
+      }
+      format.json {
+        render json: {
+          status: @order['status'],
+          invoiceNumber: @order['invoiceNumber'],
+          user: {
+            billingAddressName: @order['user']['billingAddressName']
+          }
+        }.to_json
+      }
+    end
   end
 
   private
