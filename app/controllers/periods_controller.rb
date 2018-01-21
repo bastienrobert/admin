@@ -23,6 +23,9 @@ class PeriodsController < ApplicationController
   # POST /periods/1
   def order_status
     snipcart_request('orders/' + params[:token], {status: params[:status]}, 'PUT')
+    respond_to do |format|
+      format.js {render inline: "location.reload();" }
+    end
   end
 
   # GET /periods/new
