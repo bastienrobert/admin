@@ -10,6 +10,8 @@ gem 'jquery-rails'
 gem 'puma'
 gem 'uglifier'
 gem 'turbolinks', '~> 5'
+gem 'rack-cors', :require => 'rack/cors'
+gem 'rack-attack'
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'sqlite3'

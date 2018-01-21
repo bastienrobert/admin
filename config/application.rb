@@ -13,5 +13,7 @@ module Tradfood
         ENV[key.to_s] = value
       end if File.exists?(env_file)
     end
+    # Preventing API attacks
+    config.middleware.use Rack::Attack
   end
 end
