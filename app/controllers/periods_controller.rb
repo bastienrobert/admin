@@ -22,9 +22,25 @@ class PeriodsController < ApplicationController
 
   # POST /periods/1
   def order_status
-    snipcart_request('orders/' + params[:token], {status: params[:status]}, 'PUT')
-    respond_to do |format|
-      format.js {render inline: "location.reload();" }
+    @orders = []
+    current_user.periods.each do |period|
+      @orders.push(
+        snipcart_request('orders')['items'].select { |v|
+          DateTime.parse(v['creationDate']) >= period.start_date.beginning_of_day &&
+          DateTime.parse(v['creationDate']) <= period.end_date.end_of_day
+        }
+      )
+    end
+
+    @orders[0].each do |order|
+      if order['token'].to_s == params[:token].to_s || current_user.admin
+        snipcart_request('orders/' + params[:token], {status: params[:status]}, 'PUT')
+        respond_to do |format|
+          format.js {render inline: "location.reload();" }
+        end
+      else
+        redirect_to periods_url, notice: "vous n'avez pas accès à cette commande"
+      end
     end
   end
 
