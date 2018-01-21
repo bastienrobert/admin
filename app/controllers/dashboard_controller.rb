@@ -1,5 +1,7 @@
 class DashboardController < ApplicationController
-  before_action :set_order, only: [:order]
+  before_action(only: [:order]) do |c|
+    set_order unless c.request.format.json?
+  end
 
   # GET /dashboard
   def index
@@ -23,6 +25,7 @@ class DashboardController < ApplicationController
         render :order
       }
       format.json {
+        @order = snipcart_request('orders')['items'].select {|v| v['token'] == params[:id]}[0]
         render json: {
           status: @order['status'],
           invoiceNumber: @order['invoiceNumber'],
