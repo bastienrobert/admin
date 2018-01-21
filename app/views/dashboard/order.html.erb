@@ -4,8 +4,8 @@
       <br><br>
       <div class="jumbotron">
         <h1 class="display-4">#<%= @order['invoiceNumber'] %></h1>
-        <h3 class="display-6"><%= @order['user']['billingAddressName'] %></h3>
-          <%= form_tag order_status_periods_path(@order['token']), method: :post do %>
+        <h3 class="display-6"><%= @order['user']['billingAddressName'] %> - <%= DateTime.parse(@order['user']['creationDate']).strftime('%d/%m/%Y') %></h3>
+          <%= form_tag order_status_periods_path(@order['token']), remote: :true, method: :post do %>
             <div class="input-group">
               <%= select_tag 'status', options_for_select(status_translate
                     .invert
@@ -18,7 +18,7 @@
             </div>
           <% end %>
         <hr class="my-4">
-        <h3 class="display-6"><%= @order['items'].count %> élément(s) dans le panier</h3><br>
+        <h3 class="display-6"><%= @order['finalGrandTotal'] %>€ - <%= @order['items'].count %> élément(s) dans le panier</h3><br>
         <table class="table table-bordered table-light">
           <thead>
             <tr>
@@ -46,6 +46,28 @@
             <% end %>
           </tbody>
         </table>
+        <% if @order['refunds'].length > 0 %>
+          <hr class="my-4">
+          <h3 class="display-6">Remboursements</h3>
+          <table class="table table-bordered table-light">
+            <thead>
+              <tr>
+                <td scope="col">Montant</td>
+                <td scope="col">Message</td>
+                <td scope="col">Date</td>
+              </tr>
+            </thead>
+            <tbody>
+              <% @order['refunds'].each do |refund| %>
+                <tr>
+                  <td><%= refund['amount'] %></td>
+                  <td><%= refund['comment'] %></td>
+                  <td><%= DateTime.parse(refund['creationDate']).strftime('%d/%m/%Y - %Hh%M') %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
         <hr class="my-4">
         <p>
           <h3 class="display-6">Adresse destinataire</h3>
@@ -76,6 +98,45 @@
             <%= mail_to @order['user']['email'] %>
           <% end %>
         </p>
+        <hr class="my-4">
+        <h3 class="display-6">
+          Action zone
+        </h3>
+        <%= link_to 'Télécharger la facture', '/', class: "btn btn-warning" %><br><br>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#refund">Rembourser</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="refund" tabindex="-1" role="dialog" aria-labelledby="Rembourser" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Rembourser</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_tag order_refund_periods_path, method: :post, remote: true do %>
+          <%= hidden_field_tag 'token', @order['token'] %>
+          <%= hidden_field_tag 'price', @order['finalGrandTotal'] %>
+          <div class="modal-body">
+            <div class="form-group">
+              <%= label_tag :id, 'Commande', class: 'col-form-label' %>
+              <%= text_field_tag :id, @order['invoiceNumber'], autofocus: true, class: 'form-control', disabled: true %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :message, 'Message', class: 'col-form-label' %>
+              <%= text_area_tag :message, nil, class: 'form-control', rows: 4 %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <%= submit_tag 'Valider', class: 'btn btn-danger', data: { confirm: 'Êtes vous sur de vouloir rembourser la commande ?' } %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>

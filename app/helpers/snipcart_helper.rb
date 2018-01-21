@@ -27,7 +27,7 @@ module SnipcartHelper
 
     response = http.request(request)
 
-    return JSON.parse(
+    JSON.parse(
       response
         .read_body
         .to_s

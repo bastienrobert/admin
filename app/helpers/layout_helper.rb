@@ -29,7 +29,7 @@ module LayoutHelper
     }
     conditions.each do |k, v|
       if s.downcase == k.to_s.downcase && v != false
-        return button_to status_translate(v), {controller: 'periods', action: 'order_status', token: id, status: v}, method: :post, remote: true, class: 'btn btn-warning'
+        return button_to status_translate(v), {controller: 'periods', action: 'order_status', token: id, status: v}, method: :post, remote: true, class: 'btn btn-warning', data: { confirm: 'Êtes vous sur de vouloir modifier le statut ?' }
       end
     end
     return ''

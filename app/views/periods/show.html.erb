@@ -26,7 +26,7 @@
           <tr>
             <th scope="row"><%= order['invoiceNumber'] %></th>
             <td><%= order['email'] %></td>
-            <td><%= status_translate(order['status']) %></td>
+            <td><%= status_translate(order['status']) %> <%= '- Remboursée' if order['refunds'].length > 0 %></td>
             <td><%= DateTime.parse(order['creationDate']).strftime('%d/%m/%Y') %></td>
             <td><%= link_to 'Voir', order_dashboard_path(order['token']) %></td>
             <td>
@@ -63,7 +63,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <input type="submit" class="btn btn-primary" value="Valider">
+          <%= submit_tag 'Valider', class: 'btn btn-primary', data: { confirm: 'Êtes vous sur de vouloir modifier le statut ?' } %>
         </div>
       <% end %>
     </div>

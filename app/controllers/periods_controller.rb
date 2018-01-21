@@ -1,5 +1,6 @@
 class PeriodsController < ApplicationController
   before_action :set_period, only: [:show, :edit, :update, :destroy]
+  before_action :get_rights, only: [:order_refund, :order_status]
 
   # GET /periods
   # GET /periods.json
@@ -20,27 +21,23 @@ class PeriodsController < ApplicationController
     }
   end
 
-  # POST /periods/1
+  # POST /periods/(:token)
   def order_status
-    @orders = []
-    current_user.periods.each do |period|
-      @orders.push(
-        snipcart_request('orders')['items'].select { |v|
-          DateTime.parse(v['creationDate']) >= period.start_date.beginning_of_day &&
-          DateTime.parse(v['creationDate']) <= period.end_date.end_of_day
-        }
-      )
+    snipcart_request('orders/' + params[:token], {status: params[:status]}, 'PUT')
+    respond_to do |format|
+      format.js {render inline: "location.reload();" }
     end
+  end
 
-    @orders[0].each do |order|
-      if order['token'].to_s == params[:token].to_s || current_user.admin
-        snipcart_request('orders/' + params[:token], {status: params[:status]}, 'PUT')
-        respond_to do |format|
-          format.js {render inline: "location.reload();" }
-        end
-      else
-        redirect_to periods_url, notice: "vous n'avez pas accès à cette commande"
-      end
+  # POST /periods/(:token)
+  def order_refund
+    snipcart_request('orders/' + params[:token] + '/refunds', {
+      amount: params['price'].to_f,
+      comment: params['message']
+      }, 'POST')
+
+    respond_to do |format|
+      format.js {render inline: "location.reload();" }
     end
   end
 
@@ -97,6 +94,24 @@ class PeriodsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_period
       @period = Period.find(params[:id])
+    end
+
+    def get_rights
+      @orders = []
+      current_user.periods.each do |period|
+        @orders.push(
+          snipcart_request('orders')['items'].select { |v|
+            DateTime.parse(v['creationDate']) >= period.start_date.beginning_of_day &&
+            DateTime.parse(v['creationDate']) <= period.end_date.end_of_day
+          }
+        )
+      end
+      @orders[0].each do |order|
+        if order['token'].to_s == params[:token].to_s || current_user.admin
+          return true
+        end
+      end
+      redirect_to periods_url, notice: "vous n'avez pas accès à cette commande"
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
