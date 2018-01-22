@@ -49,12 +49,8 @@
                 <td><%= order['quantity'] %></td>
                 <td>
                   <% order['customFields'].each do |f| %>
-                    <% if f['name'].downcase == 'couleurs' || f['name'].downcase == 'colors' %>
-                      <span style="color: <%= f['displayValue'] %>"><%= f['name'] %></span> -
-                    <% else %>
-                      <%= f['name'] %> :
-                      <%= f['displayValue'] %>
-                    <% end %>
+                  <%= f['name'] %> :
+                  <%= f['displayValue'] %><br>
                   <% end %>
                 </td>
               </tr>
