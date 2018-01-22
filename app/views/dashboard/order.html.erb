@@ -18,6 +18,21 @@
             </div>
           <% end %>
         <hr class="my-4">
+        <% if @order['status'].downcase == 'shipped'.downcase %>
+          <h3 class="display-6">Suivi de colis</h3>
+            <%= form_tag order_tracking_periods_path(@order['token']), remote: :true, method: :post do %>
+              <div class="input-group">
+                <%= select_tag 'trackingUrl', options_for_select(tracking_url,
+                    selected: @order['trackingUrl'] ||= current_user.tracking_url),
+                    class: 'custom-select' %>
+                <%= text_field_tag 'trackingNumber', @order['trackingNumber'] ||= nil, placeholder: 'Numéro de suivi' %>
+                <div class="input-group-append">
+                  <input class="btn btn-success" type="submit" value="Valider">
+                </div>
+              </div>
+            <% end %>
+          <hr class="my-4">
+        <% end %>
         <h3 class="display-6"><%= @order['finalGrandTotal'] %>€ - <%= @order['items'].count %> élément(s) dans le panier</h3><br>
         <table class="table table-bordered table-light">
           <thead>

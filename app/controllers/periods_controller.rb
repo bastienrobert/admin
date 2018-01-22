@@ -35,6 +35,16 @@ class PeriodsController < ApplicationController
   end
 
   # POST /periods/(:token)
+  def order_tracking
+    snipcart_request('orders/' + params[:token], {
+      trackingNumber: params[:trackingNumber],
+      trackingUrl: params[:trackingUrl]}, 'PUT')
+    respond_to do |format|
+      format.js {render inline: "location.reload();" }
+    end
+  end
+
+  # POST /periods/(:token)
   def order_refund
     snipcart_request('orders/' + params[:token] + '/refunds', {
       amount: params['price'].to_f,

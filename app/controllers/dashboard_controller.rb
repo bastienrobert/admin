@@ -29,6 +29,10 @@ class DashboardController < ApplicationController
         render json: {
           status: @order['status'],
           invoiceNumber: @order['invoiceNumber'],
+          tracking: {
+            trackingUrl: @order['trackingUrl'],
+            trackingNumber: @order['trackingNumber']
+          },
           user: {
             billingAddressName: @order['user']['billingAddressName']
           }

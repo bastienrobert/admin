@@ -6,4 +6,10 @@ module ApplicationHelper
       c
     end
   end
+  def tracking_url
+    return [
+      ['Aucun', ''],
+      ['La Poste', 'https://www.laposte.fr/particulier/outils/suivre-vos-envois?code=@']
+    ]
+  end
 end
