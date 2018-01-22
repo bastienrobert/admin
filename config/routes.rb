@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       post 'status/(:token)', :to => "periods#order_status", :as => 'order_status'
       post 'refund/(:token)', :to => "periods#order_refund", :as => 'order_refund'
       post 'tracking/(:token)', :to => "periods#order_tracking", :as => 'order_tracking'
+      post 'message/(:token)', :to => "periods#send_comment", :as => 'send_comment'
     end
   end
 

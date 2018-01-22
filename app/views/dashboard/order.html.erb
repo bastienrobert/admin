@@ -22,6 +22,7 @@
           <h3 class="display-6">Suivi de colis</h3>
             <%= form_tag order_tracking_periods_path(@order['token']), remote: :true, method: :post do %>
               <div class="input-group">
+                <%= hidden_field_tag 'id', @order['invoiceNumber'] %>
                 <%= select_tag 'trackingUrl', options_for_select(tracking_url,
                     selected: @order['trackingUrl'] ||= current_user.tracking_url),
                     class: 'custom-select' %>
@@ -110,11 +111,21 @@
           <% end %>
         </p>
         <hr class="my-4">
-        <h3 class="display-6">
-          Action zone
-        </h3>
-        <%= link_to 'Télécharger la facture', '/', class: "btn btn-warning" %><br><br>
+        <h3 class="display-6">Action zone</h3>
+        <!-- <%= link_to 'Télécharger la facture', '/', class: "btn btn-warning" %> -->
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#contact">Contacter le client</button>
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#refund">Rembourser</button>
+        <hr class="my-4">
+        <h3 class="display-6">Notifications</h3>
+        <ul>
+          <% snipcart_request('orders/' + @order['token'] + '/notifications')['items'].each do |notif| %>
+            <li>
+              <b>Date :</b> <%= DateTime.parse(notif['creationDate']).strftime('%d/%m/%Y') %><br>
+              <b>Type :</b> <%= notif['type'] %><br>
+              <b>Message :</b> <%= notif['message'] %><br><br>
+            </li>
+          <% end %>
+        </ul>
       </div>
     </div>
   </div>
@@ -149,6 +160,34 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <%= submit_tag 'Valider', class: 'btn btn-danger', data: { confirm: 'Êtes vous sur de vouloir rembourser la commande ?' } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="Contacter" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Contacter</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_tag send_comment_periods_path, method: :post, remote: true do %>
+          <%= hidden_field_tag 'token', @order['token'] %>
+          <div class="modal-body">
+            <div class="form-group">
+              <%= label_tag :message, 'Message', class: 'col-form-label' %>
+              <%= text_area_tag :message, nil, class: 'form-control', rows: 4 %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <%= submit_tag 'Valider', class: 'btn btn-danger' %>
           </div>
         <% end %>
       </div>

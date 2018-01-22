@@ -29,6 +29,12 @@ class PeriodsController < ApplicationController
   # POST /periods/(:token)
   def order_status
     snipcart_request('orders/' + params[:token], {status: params[:status]}, 'PUT')
+    if params[:status].downcase != "Shipped".downcase
+      snipcart_request('orders/' + params[:token] + '/notifications', {
+        message: params[:status],
+        type: 'OrderStatusChanged',
+        deliveryMethod: 'Email'}, 'POST')
+    end
     respond_to do |format|
       format.js {render inline: "location.reload();" }
     end
@@ -39,6 +45,10 @@ class PeriodsController < ApplicationController
     snipcart_request('orders/' + params[:token], {
       trackingNumber: params[:trackingNumber],
       trackingUrl: params[:trackingUrl]}, 'PUT')
+    snipcart_request('orders/' + params[:token] + '/notifications', {
+      message: params[:id],
+      type: 'TrackingNumber',
+      deliveryMethod: 'Email'}, 'POST')
     respond_to do |format|
       format.js {render inline: "location.reload();" }
     end
@@ -50,6 +60,18 @@ class PeriodsController < ApplicationController
       amount: params['price'].to_f,
       comment: params['message']
       }, 'POST')
+
+    respond_to do |format|
+      format.js {render inline: "location.reload();" }
+    end
+  end
+
+  # POST /periods/(:token)
+  def send_comment
+    snipcart_request('orders/' + params[:token] + '/notifications', {
+      message: params[:message],
+      type: 'Comment',
+      deliveryMethod: 'Email'}, 'POST')
 
     respond_to do |format|
       format.js {render inline: "location.reload();" }
