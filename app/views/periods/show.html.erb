@@ -22,6 +22,13 @@
     <%= link_to 'Annuler la recherche', period_path(@period) %>
   <% end %>
 
+  <% if @orders.any? { |order| order['status'].downcase == 'Shipped'.downcase  && order['trackingNumber'] == 'null' } %>
+    <div class="alert alert-warning" role="alert">
+      Merci de vous rendre dans la/les commande(s) surlignés afin d'y renseigner le numéro de suivi.<br>
+      Vous pourrez y accéder en cliquant sur <b>voir</b>.
+    </div>
+  <% end %>
+
   <div class="row">
     <table class="table">
       <thead>
@@ -36,7 +43,7 @@
       </thead>
       <tbody>
         <% @orders.each do |order| %>
-          <tr>
+          <tr <%= "class=bg-danger" if order['status'].downcase == 'Shipped'.downcase && order['trackingNumber'] == 'null' %>>
             <th scope="row"><%= order['invoiceNumber'] %></th>
             <td><%= order['email'] %></td>
             <td><%= status_translate(order['status']) %> <%= '- Remboursée' if order['refunds'].length > 0 %></td>
