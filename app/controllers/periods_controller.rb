@@ -44,7 +44,7 @@ class PeriodsController < ApplicationController
   def order_tracking
     snipcart_request('orders/' + params[:token], {
       trackingNumber: params[:trackingNumber],
-      trackingUrl: params[:trackingUrl]}, 'PUT')
+      trackingUrl: params[:trackingUrl] + params[:trackingNumber]}, 'PUT')
     snipcart_request('orders/' + params[:token] + '/notifications', {
       message: params[:id],
       type: 'TrackingNumber',
