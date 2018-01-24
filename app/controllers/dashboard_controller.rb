@@ -27,14 +27,14 @@ class DashboardController < ApplicationController
       format.json {
         @order = snipcart_request('orders')['items'].select {|v| v['invoiceNumber'].downcase == params[:id].downcase}[0]
         render json: {
+          id: @order['invoiceNumber'],
           status: @order['status'],
-          invoiceNumber: @order['invoiceNumber'],
           tracking: {
-            trackingUrl: @order['trackingUrl'],
-            trackingNumber: @order['trackingNumber']
+            url: @order['trackingUrl'],
+            number: @order['trackingNumber']
           },
           user: {
-            billingAddressName: @order['user']['billingAddressName']
+            name: @order['user']['billingAddressName']
           }
         }.to_json
       }
