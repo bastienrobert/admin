@@ -26,6 +26,7 @@ module ApplicationHelper
         name: item['name'],
         price: item['price'],
         total: item['totalPrice'],
+        quantity: item['quantity'],
         custom: custom
       })
     end
