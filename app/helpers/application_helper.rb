@@ -23,6 +23,7 @@ module ApplicationHelper
       end
       products.push({
         id: item['id'],
+        image: item['image'],
         name: item['name'],
         price: item['price'],
         total: item['totalPrice'],
