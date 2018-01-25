@@ -26,17 +26,7 @@ class DashboardController < ApplicationController
       }
       format.json {
         @order = snipcart_request('orders')['items'].select {|v| v['invoiceNumber'].downcase == params[:id].downcase}[0]
-        render json: {
-          id: @order['invoiceNumber'],
-          status: @order['status'],
-          tracking: {
-            url: @order['trackingUrl'],
-            number: @order['trackingNumber']
-          },
-          user: {
-            name: @order['user']['billingAddressName']
-          }
-        }.to_json
+        publicAPI(@order)
       }
     end
   end
