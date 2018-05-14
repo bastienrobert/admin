@@ -21,17 +21,20 @@ module SnipcartHelper
     request = Net::HTTP.const_get(met.capitalize).new(url)
     request["accept"] = 'application/json'
     request["authorization"] = 'Basic ' + ENV['SNIPCART_API_KEY']
-    request["content-type"] = 'application/x-www-form-urlencoded'
+    request["content-type"] = 'application/json; charset=UTF-8'
     request["cache-control"] = 'no-cache'
     request.set_form_data(params)
 
     response = http.request(request)
 
+    print "==========="
+    print response.read_body.to_yaml
+    print "==========="
+
     JSON.parse(
       response
         .read_body
         .to_s
-        .encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
       )
   end
 end
